@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 const PricingSection = () => {
   const [isAnnual, setIsAnnual] = useState(false);
-  const [hoveredPlan, setHoveredPlan] = useState(null);
+  const [hoveredPlan, setHoveredPlan] = useState<number | null>(null);
   const primaryColor = "#3AA7CE";
 
   const plans = [
@@ -274,9 +274,6 @@ const PricingSection = () => {
                     className={`w-full py-4 px-6 rounded-2xl font-bold text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 text-white`}
                     style={{
                       backgroundColor: plan.popular ? primaryColor : "#2D3748",
-                      ":hover": {
-                        backgroundColor: plan.popular ? "#2D8EB8" : "#1A202C",
-                      },
                     }}
                   >
                     {plan.monthlyPrice === "مجاني"
@@ -311,9 +308,6 @@ const PricingSection = () => {
                 style={{
                   borderColor: `${primaryColor}50`,
                   color: primaryColor,
-                  ":hover": {
-                    backgroundColor: `${primaryColor}10`,
-                  },
                 }}
               >
                 جدولة مكالمة مجانية

@@ -267,8 +267,7 @@ const FooterSection = () => {
                     <div
                       className="absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent to-transparent group-hover:from-blue-500/10 group-hover:to-blue-500/10 transition-all duration-300"
                       style={{
-                        from: `${primaryColor}00`,
-                        to: `${primaryColor}10`,
+                        backgroundImage: `linear-gradient(${primaryColor}00, ${primaryColor}10)`,
                       }}
                     ></div>
                     <div className="relative z-10">{social.icon}</div>

@@ -6,11 +6,10 @@ import FeaturesSection from "./components/FeaturesSection";
 import PricingSection from "./components/PricingSection";
 import DownloadSection from "./components/DownloadSection";
 import VideoPromo from "./components/VideoPromo";
-import ContactUs from "./components/ContactUs";
 import FooterSection from "./components/FooterSection";
 
 export default function Home() {
-  const sectionsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const sectionsRef = useRef<Array<HTMLElement | null>>([]);
   const bulletsRef = useRef<HTMLDivElement>(null);
   const [activeSection, setActiveSection] = useState(0);
 
@@ -97,7 +96,9 @@ export default function Home() {
         {sections.map((section, index) => (
           <section
             key={section.id}
-            ref={(el) => (sectionsRef.current[index] = el)}
+            ref={(el) => {
+              sectionsRef.current[index] = el;
+            }}
             id={section.id}
             className={`min-h-screen w-full relative ${
               index !== sections.length - 1 ? "pb-20" : ""

@@ -26,7 +26,7 @@ const VideoPromo = () => {
   const [activeFeature, setActiveFeature] = useState(0);
   const videoRef = useRef(null);
 
-  const formatTime = (seconds) => {
+  const formatTime = (seconds: any) => {
     const mins = Math.floor(seconds / 60);
     const secs = Math.floor(seconds % 60);
     return `${mins.toString().padStart(2, "0")}:${secs
@@ -42,11 +42,11 @@ const VideoPromo = () => {
     setIsMuted(!isMuted);
   };
 
-  const handleVolumeChange = (e) => {
+  const handleVolumeChange = (e: any) => {
     setVolume(e.target.value);
   };
 
-  const handleProgressChange = (e) => {
+  const handleProgressChange = (e: any) => {
     setCurrentTime(e.target.value);
   };
 
@@ -78,7 +78,7 @@ const VideoPromo = () => {
   ];
 
   useEffect(() => {
-    let interval;
+    let interval: ReturnType<typeof setInterval> | undefined;
     if (isPlaying) {
       interval = setInterval(() => {
         setCurrentTime((prev) => Math.min(prev + 1, duration));
