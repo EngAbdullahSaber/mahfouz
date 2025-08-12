@@ -1,0 +1,332 @@
+{
+  "NavBar": {
+    "home": "Home",
+    "video": "Video",
+    "download": "Download",
+    "pricing": "Pricing",
+    "features": "Features",
+    "contact": "Contact",
+    "Language": "Language",
+    "Login": "Login"
+  },
+  "Header": {
+    "badge": "Advanced school transportation tracking system",
+    "title": {
+      "part1": "Bus",
+      "part2": "Way"
+    },
+    "subtitle": "Busway",
+    "description": "The smart system for student safety in school transportation",
+    "features": {
+      "realTimeTracking": "Real-time tracking",
+      "smartAlerts": "Smart alerts",
+      "directCommunication": "Direct communication",
+      "dashboard": "Dashboard"
+    },
+    "buttons": {
+      "download": "Download App",
+      "watchVideo": "Watch Video"
+    },
+    "floating": {
+      "new": "New",
+      "connected": "Connected",
+      "safety": "Complete Safety"
+    },
+    "appPreview": {
+      "title": "Busway App",
+      "subtitle": "School bus tracking application"
+    },
+    "stats": {
+      "safety": "Safety",
+      "monitoring": "Monitoring",
+      "families": "Families"
+    },
+    "scrollIndicator": "Discover more"
+  },
+  "PricingSection": {
+    "header": {
+      "badge": "💰 Subscription Plans",
+      "freeBadge": "🎁 Free Plans",
+      "title": "Choose the",
+      "freeTitle": "Free Plans",
+      "subtitle": "Right Plan for You",
+      "freeSubtitle": "No Credit Card Required",
+      "description": "Flexible plans for everyone - from parents to schools and transportation companies",
+      "freeDescription": "Start with our free plans and upgrade anytime"
+    },
+    "toggle": {
+      "monthly": "Monthly",
+      "yearly": "Annual",
+      "discount": "Save 17%"
+    },
+    "plans": {
+      "free": {
+        "basic": {
+          "name": "Free Basic",
+          "nameEn": "Basic Plan",
+          "description": "Perfect for getting started with basic features",
+          "features": {
+            "basicTracking": "Basic tracking",
+            "limitedNotifications": "Limited notifications",
+            "basicSupport": "Community support",
+            "oneRoute": "Single route",
+            "communityAccess": "Community access"
+          }
+        },
+        "trial": {
+          "name": "Premium Trial",
+          "nameEn": "Trial Plan",
+          "description": "Try all premium features for free",
+          "features": {
+            "fullAccess": "Full access to all features",
+            "allFeatures": "All premium features included",
+            "prioritySupport": "Priority support",
+            "unlimited": "Unlimited routes and notifications",
+            "trialPeriod": "14-day trial period"
+          }
+        },
+        "community": {
+          "name": "Community Edition",
+          "nameEn": "Community Plan",
+          "description": "Open source version with community support",
+          "features": {
+            "communitySupport": "Community support",
+            "basicFeatures": "Basic features",
+            "openSource": "Open source code",
+            "documentation": "Full documentation",
+            "updates": "Regular updates"
+          }
+        }
+      },
+      "parents": {
+        "name": "For Parents",
+        "nameEn": "Parents Plan",
+        "description": "For families who want to track their children",
+        "monthlyPrice": "49",
+        "yearlyPrice": "490",
+        "features": {
+          "tracking": "Real-time child location tracking",
+          "notifications": "Arrival and departure notifications",
+          "communication": "Direct communication with driver",
+          "history": "Trip history",
+          "mobileApp": "Easy-to-use mobile app",
+          "support": "24/7 technical support"
+        }
+      },
+      "school": {
+        "name": "For Schools",
+        "nameEn": "School Plan",
+        "description": "For schools that want to manage their transportation fleet",
+        "monthlyPrice": "299",
+        "yearlyPrice": "2990",
+        "features": {
+          "dashboard": "Comprehensive school dashboard",
+          "management": "Manage all buses and students",
+          "reports": "Detailed and advanced reports",
+          "driverSystem": "Driver management system",
+          "parentNotifications": "Automatic parent notifications",
+          "integration": "School system integration",
+          "dedicatedSupport": "Dedicated technical support",
+          "training": "Team training"
+        }
+      },
+      "driver": {
+        "name": "For Drivers",
+        "nameEn": "Driver Plan",
+        "description": "For independent drivers and transportation companies",
+        "monthlyPrice": "99",
+        "yearlyPrice": "990",
+        "features": {
+          "driverApp": "Specialized driver app",
+          "studentManagement": "Student list management",
+          "attendance": "Attendance system",
+          "parentCommunication": "Parent communication",
+          "routeOptimization": "Optimal route tracking",
+          "tripManagement": "Daily trip management",
+          "ongoingSupport": "Ongoing technical support"
+        }
+      }
+    },
+    "freeGuarantee": {
+      "title": "Always Free",
+      "subtitle": "No hidden costs or fees"
+    },
+    "upgradeSection": {
+      "title": "Need More Features?",
+      "description": "Upgrade to our premium plans for advanced features and priority support.",
+      "upgradeButton": "View Premium Plans",
+      "learnMore": "Learn More"
+    },
+    "freeNotice": {
+      "title": "All plans are completely free!",
+      "description": "No credit card required. Start using all features immediately."
+    },
+    "recommendedBadge": "⭐ Recommended",
+    "popularBadge": "🔥 Most Popular",
+    "free": "Free",
+    "forever": "Forever",
+    "currency": "SAR",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "cta": {
+      "getStarted": "Get Started",
+      "startFree": "Start Free Now",
+      "subscribeNow": "Subscribe Now"
+    },
+    "customSolution": {
+      "title": "Need Custom Solutions?",
+      "description": "We offer custom solutions for large institutions and transportation companies with special prices and additional features",
+      "contactButton": "Contact for Custom Offer",
+      "scheduleButton": "Schedule Free Call"
+    },
+    "moneyBackGuarantee": {
+      "title": "30-Day Money Back Guarantee",
+      "subtitle": "Try the service risk-free"
+    }
+  },
+  "DownloadSection": {
+    "appImageAlt": "Busway App Interface",
+    "floating": {
+      "realTime": "Real-time tracking",
+      "notifications": "Smart notifications"
+    },
+    "availability": "Available now for download",
+    "title": {
+      "download": "Download the App",
+      "free": "Now for Free"
+    },
+    "description": "Available on the App Store and Google Play. Get your username and password through your school, center, or affiliated company.",
+    "platforms": "iOS & Android",
+    "freeLabel": "Completely free",
+    "security": "High security",
+    "appStoreLink": "https://itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=1504782177",
+    "playStoreLink": "https://play.google.com/store/apps/details?id=com.app.busway",
+    "downloadFrom": "Download from",
+    "appStore": "App Store",
+    "playStore": "Google Play",
+    "downloadFromAppStore": "Download from App Store",
+    "downloadFromPlayStore": "Download from Google Play",
+    "downloadsCount": "Over 10,000 downloads"
+  },
+  "FeaturesSection": {
+    "header": {
+      "badge": "Advanced Features",
+      "title": "Advanced Technology",
+      "description": "At Busway, we work passionately to provide suitable tracking and communication means between service providers and beneficiaries"
+    },
+    "features": {
+      "absence": {
+        "title": "Absence Registration",
+        "subtitle": "Easy Absence Registration",
+        "description": "Parents or students can easily register absences through the app if they don't want to take the school bus on any day of the week."
+      },
+      "tracking": {
+        "title": "School Bus Tracking",
+        "subtitle": "Real-time Bus Tracking",
+        "description": "With Busway's real-time tracking service, users can know the actual location of the school bus and the student's location after boarding."
+      },
+      "notifications": {
+        "title": "Notifications for Everything",
+        "subtitle": "Smart Notifications",
+        "description": "With instant notifications and their distinctive tone, you stay continuously updated on everything related to the school bus movement, with automatic alerts synchronized with the bus's actual location."
+      },
+      "communication": {
+        "title": "School Communication",
+        "subtitle": "Direct School Communication",
+        "description": "With the instant messaging service, students and parents can communicate directly with the school through the app, providing a distinctive and effective communication environment."
+      }
+    },
+    "stats": {
+      "families": "Beneficiary Families",
+      "schools": "Partner Schools",
+      "service": "Continuous Service",
+      "uptime": "Uptime"
+    },
+    "cta": "Try All Features Now"
+  },
+  "FooterSection": {
+    "contact": {
+      "title": "Contact Information",
+      "phone": {
+        "label": "Phone",
+        "value": "0555227377"
+      },
+      "mobile": {
+        "label": "Mobile",
+        "value": "0555227377"
+      },
+      "email": {
+        "label": "Email",
+        "value": "masarksa707@gmail.com"
+      },
+      "address": {
+        "label": "Address",
+        "value": "Saudi Arabia - Qassim"
+      }
+    },
+    "download": {
+      "title": "Download the App Now",
+      "on": "Download on the",
+      "get": "Get it on",
+      "appStore": "App Store",
+      "playStore": "Google Play"
+    },
+    "social": {
+      "title": "Follow us on social media"
+    },
+    "brandName": "Busway",
+    "downloadTitle": "downloadTitle",
+    "tagline": "Busway school bus tracking app - towards a safe and comfortable journey for your children",
+    "copyright": "All rights reserved © 2025 Busway - Developed with",
+    "links": {
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Use",
+      "faq": "FAQ"
+    },
+    "scrollToTop": "Scroll to top"
+  },
+  "VideoPromo": {
+    "header": {
+      "tagline": "The perfect solution for school transportation",
+      "brandName": "Bus Way",
+      "subtitle": "School bus tracker",
+      "description": "Bus Way app for tracking the school bus",
+      "benefits": {
+        "safe": "Safe",
+        "reliable": "Reliable",
+        "realTime": "Real-time tracking"
+      }
+    },
+    "features": {
+      "gpsTracking": {
+        "title": "Real-time GPS tracking",
+        "desc": "Live and accurate tracking"
+      },
+      "notifications": {
+        "title": "Parent notifications",
+        "desc": "Instant notifications for parents"
+      },
+      "safety": {
+        "title": "Safety first",
+        "desc": "Safety comes first"
+      },
+      "optimization": {
+        "title": "Route optimization",
+        "desc": "Optimizing routes"
+      }
+    },
+    "stats": {
+      "activeUsers": "Active users",
+      "safetyRate": "Safety rate"
+    },
+    "cta": {
+      "title": "With Bus Way ... feel reassured",
+      "description": "Join thousands of users who trust Bus Way to ensure the safety and comfort of their children",
+      "downloadButton": "Download the app now",
+      "demoButton": "Watch demo"
+    },
+    "video": {
+      "title": "Bus Way app for tracking the school bus"
+    }
+  }
+}

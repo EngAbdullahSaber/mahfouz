@@ -1,76 +1,123 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useMemo } from "react";
+import { useTranslations } from "next-intl";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
+// Only register ScrollTrigger once
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 const FeaturesSection = () => {
-  const sectionRef = useRef(null);
+  const sectionRef = useRef<HTMLElement>(null);
   const [activeFeature, setActiveFeature] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
+  const t = useTranslations("FeaturesSection");
 
-  const features = [
-    {
-      id: 1,
-      title: "تسجيل غياب",
-      subtitle: "Easy Absence Registration",
-      description:
-        "بكل سهولة يستطيع ولي الأمر أو الطالب تسجيل غياب من خلال التطبيق في حالة عدم رغبتة بالذهاب بالباص المدرسي لأي يوم من الأسبوع.",
-      color: "from-red-500 to-pink-500",
-      accentColor: "red",
-      gradient: "from-red-50 to-pink-50",
-      icon: "📋",
-    },
-    {
-      id: 2,
-      title: "تتبع الباص المدرسي",
-      subtitle: "Real-time Bus Tracking",
-      description:
-        "مع خدمة التتبع اللحظية من تطبيق باص واي، يمكن للمستفيد من الخدمة معرفة الموقع الفعلي للباص المدرسي ومعرفة موقع الطالب بعد صعوده للباص المدرسي.",
-      color: "from-blue-500 to-indigo-500",
-      accentColor: "blue",
-      gradient: "from-blue-50 to-indigo-50",
-      icon: "📍",
-    },
-    {
-      id: 3,
-      title: "إشعارات لكل شئ",
-      subtitle: "Smart Notifications",
-      description:
-        "مع خدمة الإشعارات الفورية بنغمتها المميزة، تكون على اطلاع مستمر على كل ما يطرأ على حركة الباص المدرسي، مع وصول تنبيهات آلية متزامنة مع الموقع الفعلي للباص المدرسي.",
-      color: "from-yellow-500 to-orange-500",
-      accentColor: "yellow",
-      gradient: "from-yellow-50 to-orange-50",
-      icon: "🔔",
-    },
-    {
-      id: 4,
-      title: "تواصل مع المدرسة",
-      subtitle: "Direct School Communication",
-      description:
-        "مع خدمة الرسائل الفورية، يستطيع الطالب وولي الأمر التواصل مباشرة مع المدرسة من خلال التطبيق مما يوفر بيئة تواصل مميزة وفعالة.",
-      color: "from-green-500 to-emerald-500",
-      accentColor: "green",
-      gradient: "from-green-50 to-emerald-50",
-      icon: "💬",
-    },
-  ];
+  // Memoized features data
+  const features = useMemo(
+    () => [
+      {
+        id: 1,
+        title: t("features.absence.title"),
+        subtitle: t("features.absence.subtitle"),
+        description: t("features.absence.description"),
+        color: "from-[#22488F] to-[#3A6FD8]",
+        accentColor: "blue-600",
+        gradient: "from-blue-50 to-indigo-50",
+        icon: "📋",
+      },
+      {
+        id: 2,
+        title: t("features.tracking.title"),
+        subtitle: t("features.tracking.subtitle"),
+        description: t("features.tracking.description"),
+        color: "from-[#1A3C7A] to-[#22488F]",
+        accentColor: "blue-700",
+        gradient: "from-blue-100 to-blue-50",
+        icon: "📍",
+      },
+      {
+        id: 3,
+        title: t("features.notifications.title"),
+        subtitle: t("features.notifications.subtitle"),
+        description: t("features.notifications.description"),
+        color: "from-[#22488F] to-[#4A90E2]",
+        accentColor: "blue-500",
+        gradient: "from-blue-50 to-sky-50",
+        icon: "🔔",
+      },
+      {
+        id: 4,
+        title: t("features.communication.title"),
+        subtitle: t("features.communication.subtitle"),
+        description: t("features.communication.description"),
+        color: "from-[#1A3C7A] to-[#3A6FD8]",
+        accentColor: "blue-800",
+        gradient: "from-blue-50 to-indigo-100",
+        icon: "💬",
+      },
+    ],
+    [t]
+  );
 
+  // Memoized stats data
+  const stats = useMemo(
+    () => [
+      { number: "1000+", label: t("stats.families"), icon: "👨‍👩‍👧‍👦" },
+      { number: "50+", label: t("stats.schools"), icon: "🏫" },
+      { number: "24/7", label: t("stats.service"), icon: "⏰" },
+      { number: "99.9%", label: t("stats.uptime"), icon: "🚀" },
+    ],
+    [t]
+  );
+
+  // Optimized intersection observer
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsVisible(entry.isIntersecting);
       },
-      { threshold: 0.3 }
+      {
+        threshold: 0.3,
+        rootMargin: "0px 0px -100px 0px", // slight optimization
+      }
     );
 
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
+    const currentRef = sectionRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
     }
 
-    return () => observer.disconnect();
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
   }, []);
+
+  // Animation with GSAP
+  useEffect(() => {
+    if (isVisible && sectionRef.current) {
+      gsap.from(sectionRef.current.querySelectorAll(".feature-card"), {
+        y: 50,
+        opacity: 0,
+        stagger: 0.15,
+        duration: 0.8,
+        ease: "power3.out",
+      });
+
+      gsap.from(sectionRef.current.querySelectorAll(".stats-card"), {
+        y: 30,
+        opacity: 0,
+        stagger: 0.1,
+        delay: 0.6,
+        duration: 0.6,
+        ease: "power2.out",
+      });
+    }
+  }, [isVisible]);
 
   return (
     <section
@@ -78,55 +125,49 @@ const FeaturesSection = () => {
       id="features"
       className="relative py-24 md:py-32 overflow-hidden bg-gradient-to-b from-gray-50 to-white"
     >
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-r from-blue-200/10 to-purple-200/10 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-32 right-16 w-80 h-80 bg-gradient-to-r from-pink-200/10 to-orange-200/10 rounded-full blur-3xl"></div>
+      {/* Optimized background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none will-change-transform">
+        <div className="absolute top-20 left-10 w-96 h-96 bg-gradient-to-r from-[#22488F]/10 to-[#3A6FD8]/10 rounded-full blur-3xl will-change-transform" />
+        <div className="absolute bottom-32 right-16 w-80 h-80 bg-gradient-to-r from-[#22488F]/10 to-[#4A90E2]/10 rounded-full blur-3xl will-change-transform" />
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
-        <div
-          className={`text-center mb-16 md:mb-24 max-w-4xl mx-auto transition-all duration-1000 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
-        >
-          <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/10 to-purple-500/10 backdrop-blur-sm border border-blue-200/30 text-blue-600 text-sm font-medium mb-6">
-            <div className="w-2 h-2 bg-blue-500 rounded-full mr-2 animate-pulse"></div>
-            مميزات متقدمة
+        {/* Section header */}
+        <div className="text-center mb-16 md:mb-24 max-w-4xl mx-auto">
+          <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-[#22488F]/10 to-[#3A6FD8]/10 backdrop-blur-sm border border-[#22488F]/30 text-[#22488F] text-sm font-medium mb-6 will-change-transform">
+            <div className="w-2 h-2 bg-[#22488F] rounded-full mr-2 animate-pulse" />
+            {t("header.badge")}
           </div>
 
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-            <span className="bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 bg-clip-text text-transparent">
-              تقنية متطورة
+            <span className="bg-gradient-to-r from-gray-900 via-[#22488F] to-[#3A6FD8] bg-clip-text text-transparent will-change-transform">
+              {t("header.title")}
             </span>
           </h2>
 
-          <p className="text-lg md:text-xl text-gray-600 leading-relaxed">
-            نعمل في باص واي بكل شغف لأجل توفير وسيلة تتبع وتواصل مناسبة بين مقدم
-            الخدمة والمستفيد من الخدمة
+          <p className="text-lg md:text-xl text-gray-600 leading-relaxed will-change-transform">
+            {t("header.description")}
           </p>
         </div>
 
+        {/* Feature cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
           {features.map((feature, index) => (
             <div
               key={feature.id}
-              className={`group relative p-6 md:p-8 rounded-2xl transition-all duration-500 cursor-pointer transform hover:scale-105 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-10"
-              } ${
+              className={`feature-card group relative p-6 md:p-8 rounded-2xl transition-all duration-500 cursor-pointer transform hover:scale-105 will-change-transform ${
                 activeFeature === index
-                  ? `bg-gradient-to-r ${feature.gradient} shadow-lg border-${feature.accentColor}-200 scale-105`
+                  ? `bg-gradient-to-r ${feature.gradient} shadow-lg border-${feature.accentColor} scale-105`
                   : "bg-white shadow-sm border border-gray-200 hover:shadow-md"
               }`}
-              style={{ transitionDelay: `${index * 150}ms` }}
               onClick={() => setActiveFeature(index)}
               onMouseEnter={() => setActiveFeature(index)}
+              aria-label={feature.title}
             >
               <div
-                className={`relative w-16 h-16 rounded-xl bg-gradient-to-r ${feature.color} p-1 mb-6 transition-transform duration-300 group-hover:scale-110`}
+                className={`relative w-16 h-16 rounded-xl bg-gradient-to-r ${feature.color} p-1 mb-6 transition-transform duration-300 group-hover:scale-110 will-change-transform`}
               >
-                <div className="w-full h-full bg-white rounded-lg flex items-center justify-center text-2xl">
+                <div className="w-full h-full bg-white rounded-lg flex items-center justify-center text-2xl will-change-transform">
                   {feature.icon}
                 </div>
               </div>
@@ -144,25 +185,22 @@ const FeaturesSection = () => {
               </div>
 
               {activeFeature === index && (
-                <div className="absolute bottom-6 left-6 right-6 h-1 bg-gradient-to-r from-transparent via-current to-transparent opacity-20"></div>
+                <div className="absolute bottom-6 left-6 right-6 h-1 bg-gradient-to-r from-transparent via-current to-transparent opacity-20 will-change-transform" />
               )}
             </div>
           ))}
         </div>
 
-        <div
-          className={`mt-16 bg-white rounded-2xl shadow-lg overflow-hidden max-w-4xl mx-auto transition-all duration-700 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
-        >
+        {/* Active feature details */}
+        <div className="mt-16 bg-white rounded-2xl shadow-lg overflow-hidden max-w-4xl mx-auto will-change-transform">
           <div
-            className={`h-2 bg-gradient-to-r ${features[activeFeature].color}`}
-          ></div>
+            className={`h-2 bg-gradient-to-r ${features[activeFeature].color} will-change-transform`}
+          />
           <div className="p-8">
             <div className="flex items-center mb-6">
               <div
-                className={`w-3 h-3 rounded-full bg-gradient-to-r ${features[activeFeature].color} mr-3`}
-              ></div>
+                className={`w-3 h-3 rounded-full bg-gradient-to-r ${features[activeFeature].color} mr-3 will-change-transform`}
+              />
               <h3 className="text-xl font-bold text-gray-900">
                 {features[activeFeature].title}
               </h3>
@@ -173,24 +211,15 @@ const FeaturesSection = () => {
           </div>
         </div>
 
+        {/* Stats */}
         <div className="mt-24 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-4xl mx-auto">
-          {[
-            { number: "1000+", label: "عائلة مستفيدة", icon: "👨‍👩‍👧‍👦" },
-            { number: "50+", label: "مدرسة شريكة", icon: "🏫" },
-            { number: "24/7", label: "خدمة متواصلة", icon: "⏰" },
-            { number: "99.9%", label: "وقت التشغيل", icon: "🚀" },
-          ].map((stat, index) => (
+          {stats.map((stat, index) => (
             <div
               key={index}
-              className={`text-center p-4 md:p-6 rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-500 transform hover:scale-105 ${
-                isVisible
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-10"
-              }`}
-              style={{ transitionDelay: `${600 + index * 100}ms` }}
+              className={`stats-card text-center p-4 md:p-6 rounded-xl bg-white shadow-sm hover:shadow-md transition-all duration-500 transform hover:scale-105 will-change-transform`}
             >
               <div className="text-2xl md:text-3xl mb-3">{stat.icon}</div>
-              <div className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-2">
+              <div className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#22488F] to-[#3A6FD8] bg-clip-text text-transparent mb-2">
                 {stat.number}
               </div>
               <div className="text-sm md:text-base text-gray-600">
@@ -200,22 +229,28 @@ const FeaturesSection = () => {
           ))}
         </div>
 
+        {/* CTA Button */}
         <div className="text-center mt-16">
-          <button className="relative px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 transform hover:scale-105">
+          <button
+            className="relative px-8 py-4 bg-gradient-to-r from-[#22488F] to-[#3A6FD8] text-white font-bold rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 transform hover:scale-105 will-change-transform"
+            aria-label={t("cta")}
+          >
             <span className="relative z-10 flex items-center justify-center">
               <span className="ml-2 text-xl">🚀</span>
-              جرب جميع المميزات الآن
+              {t("cta")}
             </span>
-            <span className="absolute inset-0 bg-white/10 opacity-0 hover:opacity-100 rounded-full transition-opacity duration-300"></span>
+            <span className="absolute inset-0 bg-white/10 opacity-0 hover:opacity-100 rounded-full transition-opacity duration-300 will-change-opacity" />
           </button>
         </div>
       </div>
 
+      {/* Optimized SVG wave */}
       <div className="absolute bottom-0 left-0 right-0 z-10">
         <svg
           viewBox="0 0 1440 120"
           className="w-full"
           preserveAspectRatio="none"
+          aria-hidden="true"
         >
           <path
             fill="#fff"
