@@ -8,6 +8,7 @@ import React, {
 } from "react";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
+import { useParams } from "next/navigation";
 
 // Dynamically import Lucide icons with SSR disabled
 const Play = dynamic(() => import("lucide-react").then((mod) => mod.Play), {
@@ -63,10 +64,56 @@ const COLORS = {
   dark2: "#0A1F3E",
 };
 
-const VideoPromo = () => {
-  const t = useTranslations("VideoPromo");
+interface VideoPromoData {
+  id: string;
+  sectionName: string;
+  pageName: string;
+  title: {
+    ar: string;
+    en: string;
+    tk: string;
+  };
+  subTitle: {
+    ar: string;
+    en: string;
+    tk: string;
+  };
+  links: {
+    promo: string;
+  };
+  meta: {
+    stats: {
+      items: {
+        key: string;
+        label: {
+          ar: string;
+          en: string;
+          tk: string;
+        };
+        value: string;
+        isActive: boolean;
+      }[];
+      isActive: boolean;
+    };
+    features: {
+      items: {
+        key: string;
+        label: {
+          ar: string;
+          en: string;
+          tk: string;
+        };
+        isActive: boolean;
+      }[];
+      isActive: boolean;
+    };
+  };
+  isActive: boolean;
+}
 
-  // Split state into logical chunks to minimize re-renders
+const VideoPromo = ({ data }: { data: VideoPromoData }) => {
+  const t = useTranslations("VideoPromo");
+  const { locale } = useParams();
   const [playback, setPlayback] = useState({
     isPlaying: false,
     isMuted: false,
@@ -82,44 +129,46 @@ const VideoPromo = () => {
   });
 
   const [activeFeature, setActiveFeature] = useState(0);
+
   const videoRef = useRef<HTMLIFrameElement>(null);
-const animationFrameRef = useRef<number | null>(null);
-const featureTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const animationFrameRef = useRef<number | null>(null);
+  const featureTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Extract YouTube video ID from the URL
+  const youtubeId = useMemo(() => {
+    if (!data?.links?.promo) return "DDop4xX7XZU"; // fallback ID
+    const url = new URL(data.links.promo);
+    return url.searchParams.get("v") || "DDop4xX7XZU";
+  }, [data?.links?.promo]);
 
   // Memoized features array with stable references
-  const features = useMemo(
-    () => [
-      {
-        id: 1,
-        icon: "🚌",
-        title: t("features.gpsTracking.title"),
-        desc: t("features.gpsTracking.desc"),
-        color: `from-[${COLORS.primary}] to-[${COLORS.accent}]`,
-      },
-      {
-        id: 2,
-        icon: "🔔",
-        title: t("features.notifications.title"),
-        desc: t("features.notifications.desc"),
-        color: `from-[${COLORS.primary}] to-[${COLORS.secondary}]`,
-      },
-      {
-        id: 3,
-        icon: "🛡️",
-        title: t("features.safety.title"),
-        desc: t("features.safety.desc"),
-        color: `from-[${COLORS.primary}] to-[${COLORS.dark1}]`,
-      },
-      {
-        id: 4,
-        icon: "⚡",
-        title: t("features.optimization.title"),
-        desc: t("features.optimization.desc"),
-        color: `from-[${COLORS.primary}] to-[${COLORS.dark2}]`,
-      },
-    ],
-    [t]
-  );
+  const features = useMemo(() => {
+    if (!data?.meta?.features?.items) return [];
+
+    const featureIcons = ["🚌", "🔔", "🛡️", "⚡"];
+
+    return data.meta.features.items
+      .filter((feature) => feature.isActive)
+      .map((feature, index) => ({
+        id: feature.key,
+        icon: featureIcons[index] || "⭐",
+        title:
+          locale == "en"
+            ? feature.label.en
+            : locale == "ar"
+            ? feature.label.ar
+            : feature.label.tk, // Using English as default, you can make this dynamic based on locale
+        color: `from-[${COLORS.primary}] to-[${
+          index % 2 === 0 ? COLORS.accent : COLORS.secondary
+        }]`,
+      }));
+  }, [data?.meta?.features?.items, t]);
+
+  // Memoized stats array
+  const stats = useMemo(() => {
+    if (!data?.meta?.stats?.items) return [];
+    return data.meta.stats.items.filter((stat) => stat.isActive);
+  }, [data?.meta?.stats?.items]);
 
   // Optimized time formatter
   const formatTime = useCallback((seconds: number) => {
@@ -187,6 +236,8 @@ const featureTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // Feature rotation with cleanup
   useEffect(() => {
+    if (features.length === 0) return;
+
     const rotateFeature = () => {
       setActiveFeature((prev) => (prev + 1) % features.length);
       featureTimeoutRef.current = setTimeout(rotateFeature, 3000);
@@ -283,6 +334,8 @@ const featureTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     []
   );
 
+  if (!data || !data.isActive) return null;
+
   return (
     <section
       id="VideoPromo"
@@ -313,18 +366,15 @@ const featureTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
           <h1 className="text-5xl sm:text-6xl lg:text-8xl font-black text-white mb-8 leading-tight">
             <span className="bg-gradient-to-r from-[#22488F] via-[#2D5BA8] to-[#1A3A75] bg-clip-text text-transparent animate-pulse">
-              {t("header.brandName")}
+              {data.title.en}
             </span>
             <br />
             <span className="text-white/90 relative">
-              {t("header.subtitle")}
+              {data.subTitle.en}
               <div className="absolute -bottom-4 left-0 right-0 h-2 bg-gradient-to-r from-[#22488F] via-[#2D5BA8] to-[#1A3A75] rounded-full" />
             </span>
           </h1>
 
-          <p className="text-2xl text-[#2D5BA8] font-light mb-4 leading-relaxed">
-            {t("header.description")}
-          </p>
           <p className="text-lg text-[#2D5BA8] opacity-90 flex items-center justify-center gap-4">
             <span className="flex items-center gap-2">
               <Shield className="w-5 h-5" />
@@ -335,8 +385,6 @@ const featureTimeoutRef = useRef<NodeJS.Timeout | null>(null);
               <Users className="w-5 h-5" />
               {t("header.benefits.reliable")}
             </span>
-            <span className="w-2 h-2 bg-[#1A3A75] rounded-full" />
-            <span>{t("header.benefits.realTime")}</span>
           </p>
         </div>
 
@@ -358,8 +406,8 @@ const featureTimeoutRef = useRef<NodeJS.Timeout | null>(null);
                   <iframe
                     ref={videoRef}
                     className="w-full h-full object-cover"
-                    src="https://www.youtube.com/embed/dbwIKgG16Cs?autoplay=0&controls=0&disablekb=1&playsinline=1&rel=0&showinfo=0&modestbranding=1&enablejsapi=1"
-                    title={t("video.title")}
+                    src={`https://www.youtube.com/embed/${youtubeId}?autoplay=0&controls=0&disablekb=1&playsinline=1&rel=0&showinfo=0&modestbranding=1&enablejsapi=1`}
+                    title={data.title.en}
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowFullScreen
@@ -486,106 +534,67 @@ const featureTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
           {/* Features Sidebar */}
           <div className="xl:col-span-4 space-y-6">
-            {/* <div className="grid grid-cols-2 gap-4 mb-8">
-              <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 text-center transform hover:scale-105 transition-all duration-300">
-                <div className="text-3xl font-black text-white mb-2">10K+</div>
-                <div className="text-[#2D5BA8] text-sm">
-                  {t("stats.activeUsers")}
-                </div>
-              </div>
-              <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 text-center transform hover:scale-105 transition-all duration-300">
-                <div className="text-3xl font-black text-white mb-2">99.9%</div>
-                <div className="text-[#1A3A75] text-sm">
-                  {t("stats.safetyRate")}
-                </div>
-              </div>
-            </div> */}
-
-            <div className="space-y-4">
-              {features.map((feature, index) => (
-                <div
-                  key={feature.id}
-                  className={`relative overflow-hidden rounded-2xl p-6 border transition-all duration-500 transform hover:scale-105 cursor-pointer ${
-                    activeFeature === index
-                      ? "bg-white/15 border-white/30 shadow-2xl"
-                      : "bg-white/10 border-white/20 hover:bg-white/15"
-                  }`}
-                  onClick={() => setActiveFeature(index)}
-                >
+            {data.meta.stats.isActive && stats.length > 0 && (
+              <div className="grid grid-cols-2 gap-4 mb-8">
+                {stats.map((stat, index) => (
                   <div
-                    className={`absolute inset-0 bg-gradient-to-r ${
-                      feature.color
-                    } opacity-10 ${
-                      activeFeature === index ? "opacity-20" : ""
-                    } transition-opacity duration-500`}
-                  />
-                  <div className="relative z-10 flex items-center gap-4">
+                    key={stat.key}
+                    className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-6 text-center transform hover:scale-105 transition-all duration-300"
+                  >
+                    <div className="text-3xl font-black text-white mb-2">
+                      {stat.value}
+                    </div>
                     <div
-                      className={`w-14 h-14 rounded-2xl bg-gradient-to-r ${
-                        feature.color
-                      } flex items-center justify-center shadow-lg transform transition-transform duration-300 ${
-                        activeFeature === index ? "scale-110" : ""
+                      className={`text-sm ${
+                        index % 2 === 0 ? "text-[#2D5BA8]" : "text-[#1A3A75]"
                       }`}
                     >
-                      <span className="text-2xl">{feature.icon}</span>
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="text-white font-bold text-lg mb-1">
-                        {feature.title}
-                      </h3>
-                      <p className="text-[#2D5BA8] text-sm opacity-90">
-                        {feature.desc}
-                      </p>
+                      {stat.label.en}
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* CTA Section */}
-        <div className="mt-20 text-center">
-          <div className="relative bg-white/10 backdrop-blur-2xl border border-white/20 rounded-3xl p-12 shadow-2xl max-w-4xl mx-auto overflow-hidden">
-            <div className="relative z-10">
-              <div className="flex items-center justify-center gap-6 mb-8">
-                <span className="text-5xl animate-bounce">🚌</span>
-                <span
-                  className="text-5xl animate-bounce"
-                  style={{ animationDelay: "0.5s" }}
-                >
-                  📱
-                </span>
-                <span
-                  className="text-5xl animate-bounce"
-                  style={{ animationDelay: "1s" }}
-                >
-                  🛡️
-                </span>
+                ))}
               </div>
+            )}
 
-              <h3 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-[#22488F] via-[#2D5BA8] to-[#1A3A75] bg-clip-text text-transparent mb-6 leading-tight">
-                {t("cta.title")}
-              </h3>
-
-              <p className="text-xl text-[#2D5BA8] mb-10 leading-relaxed font-medium max-w-2xl mx-auto">
-                {t("cta.description")}
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-                <button className="group relative overflow-hidden px-10 py-5 bg-gradient-to-r from-[#22488F] to-[#1A3A75] text-white font-bold rounded-2xl shadow-2xl hover:shadow-3xl transform hover:-translate-y-2 transition-all duration-500 text-lg border border-white/20">
-                  <div className="relative flex items-center gap-4">
-                    <Download className="w-6 h-6 group-hover:animate-bounce" />
-                    <span>{t("cta.downloadButton")}</span>
-                    <div className="w-2 h-2 bg-white rounded-full group-hover:animate-ping" />
+            {data.meta.features.isActive && features.length > 0 && (
+              <div className="space-y-4">
+                {features.map((feature, index) => (
+                  <div
+                    key={feature.id}
+                    className={`relative overflow-hidden rounded-2xl p-6 border transition-all duration-500 transform hover:scale-105 cursor-pointer ${
+                      activeFeature === index
+                        ? "bg-white/15 border-white/30 shadow-2xl"
+                        : "bg-white/10 border-white/20 hover:bg-white/15"
+                    }`}
+                    onClick={() => setActiveFeature(index)}
+                  >
+                    <div
+                      className={`absolute inset-0 bg-gradient-to-r ${
+                        feature.color
+                      } opacity-10 ${
+                        activeFeature === index ? "opacity-20" : ""
+                      } transition-opacity duration-500`}
+                    />
+                    <div className="relative z-10 flex items-center gap-4">
+                      <div
+                        className={`w-14 h-14 rounded-2xl bg-gradient-to-r ${
+                          feature.color
+                        } flex items-center justify-center shadow-lg transform transition-transform duration-300 ${
+                          activeFeature === index ? "scale-110" : ""
+                        }`}
+                      >
+                        <span className="text-2xl">{feature.icon}</span>
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-white font-bold text-lg mb-1">
+                          {feature.title}
+                        </h3>
+                      </div>
+                    </div>
                   </div>
-                </button>
-
-                <button className="px-10 py-5 bg-white/10 backdrop-blur-sm border-2 border-white/30 text-white font-semibold rounded-2xl hover:bg-white/20 hover:border-white/50 transition-all duration-300 transform hover:scale-105 text-lg">
-                  {t("cta.demoButton")}
-                </button>
+                ))}
               </div>
-            </div>
+            )}
           </div>
         </div>
       </div>
