@@ -58,7 +58,12 @@ const PricingSection: React.FC<PricingSectionProps> = ({
     },
     [locale]
   );
-
+  const scrollToSection = useCallback((sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
   // Memoized CheckmarkIcon to prevent re-renders
   const CheckmarkIcon = useMemo(
     () => (
@@ -261,7 +266,10 @@ const PricingSection: React.FC<PricingSectionProps> = ({
                 >
                   {/* Button gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent translate-x-[-100%] group-hover/button:translate-x-[100%] transition-transform duration-700" />
-                  <span className="relative z-10">
+                  <span
+                    className="relative z-10 cursor-pointer"
+                    onClick={() => scrollToSection("download")}
+                  >
                     {t("cta.getStarted") || "Get Started Free"}
                   </span>
                 </button>

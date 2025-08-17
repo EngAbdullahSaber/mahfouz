@@ -307,7 +307,7 @@ const FooterSection = ({ data }: ResponseData) => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 p-8">
             {/* Download Section */}
             <div className="space-y-6">
-              <h3 className="text-2xl font-bold text-white text-center lg:text-left mb-6">
+              <h3 className="text-2xl font-bold text-white text-center   mb-6">
                 {t("downloadTitle")}
               </h3>
 
@@ -368,7 +368,7 @@ const FooterSection = ({ data }: ResponseData) => {
 
             {/* Contact Section */}
             <div className="space-y-6">
-              <h3 className="text-2xl font-bold text-white text-center lg:text-left mb-6">
+              <h3 className="text-2xl font-bold text-white text-center   mb-6">
                 {t("contact.title")}
               </h3>
 

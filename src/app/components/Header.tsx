@@ -137,6 +137,12 @@ const Header = ({ data }: HeaderProps) => {
     };
   }, [handleScroll]);
 
+  const scrollToSection = useCallback((sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
   // Memoized feature cards
   const featureCards = useMemo(
     () => [
@@ -351,17 +357,21 @@ const Header = ({ data }: HeaderProps) => {
               style={{ animationDelay: "1.3s" }}
             >
               <button
-                className="group relative px-6 sm:px-8 py-4 text-white font-bold rounded-2xl text-base sm:text-lg transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105 hover:-rotate-1 overflow-hidden will-change-transform"
+                onClick={() => scrollToSection("download")}
+                className="group relative px-6 sm:px-8 py-4 cursor-pointer text-white font-bold rounded-2xl text-base sm:text-lg transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105 hover:-rotate-1 overflow-hidden will-change-transform"
                 style={{ backgroundColor: primaryColor }}
               >
-                <span className="relative z-10 flex items-center justify-center">
-                  <span className="mr-3 text-xl sm:text-2xl">📱</span>
+                <span className="relative z-10 flex items-center justify-center ">
+                  <span className="mr-3 text-xl sm:text-2xl ">📱</span>
                   {t("buttons.download")}
                 </span>
                 <div className="absolute inset-0 bg-white/20 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left" />
               </button>
 
-              <button className="group px-6 sm:px-8 py-4 bg-white border-2 border-gray-300 text-gray-700 font-bold rounded-2xl text-base sm:text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 hover:rotate-1 will-change-transform hover:border-[#22488F]">
+              <button
+                onClick={() => scrollToSection("video")}
+                className="group px-6 sm:px-8 py-4 bg-white border-2  cursor-pointer border-gray-300 text-gray-700 font-bold rounded-2xl text-base sm:text-lg transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105 hover:rotate-1 will-change-transform hover:border-[#22488F]"
+              >
                 <span className="flex items-center justify-center">
                   <span className="mr-3 text-xl sm:text-2xl">▶️</span>
                   {t("buttons.watchVideo")}
