@@ -12,7 +12,7 @@ import FooterSection from "../components/FooterSection";
 // Generate dynamic metadata
 export async function generateMetadata(): Promise<Metadata> {
   const res = await fetch(
-    "https://api.mahfouzapp.com//dashboard/landing-page/pages/home",
+    "https://api.mahfouzapp.com/dashboard/landing-page/pages/home",
     { cache: "default" }
   );
   const data = await res.json();
@@ -40,7 +40,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description:
         headerSection?.subTitle?.en ||
         "Peace of mind from home to school and back",
-      url: "https://api.mahfouzapp.com/",
+      url: "https://api.mahfouzapp.com",
       siteName: "Mahfouz",
       images: [
         {
@@ -62,11 +62,11 @@ export async function generateMetadata(): Promise<Metadata> {
       images: ["/twitter-image.jpg"], // Replace with your actual Twitter image
     },
     alternates: {
-      canonical: "https://api.mahfouzapp.com/",
+      canonical: "https://api.mahfouzapp.com",
       languages: {
-        en: "https://api.mahfouzapp.com//en",
-        ar: "https://api.mahfouzapp.com//ar",
-        tk: "https://api.mahfouzapp.com//tk",
+        en: "https://api.mahfouzapp.com/en",
+        ar: "https://api.mahfouzapp.com/ar",
+        tk: "https://api.mahfouzapp.com/tk",
       },
     },
   };
@@ -84,10 +84,10 @@ export default async function Page() {
   ];
 
   const [res, res1] = await Promise.all([
-    fetch("https://api.mahfouzapp.com//dashboard/landing-page/pages/home", {
+    fetch("https://api.mahfouzapp.com/dashboard/landing-page/pages/home", {
       cache: "no-store",
     }),
-    fetch("https://api.mahfouzapp.com//dashboard/landing-page/features", {
+    fetch("https://api.mahfouzapp.com/dashboard/landing-page/features", {
       cache: "no-store",
     }),
   ]);

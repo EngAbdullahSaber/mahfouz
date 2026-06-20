@@ -461,7 +461,7 @@ const Header = ({ data }: HeaderProps) => {
                         {heroSection?.image ? (
                           <div className="w-full max-w-xs sm:max-w-sm aspect-[9/16] relative">
                             <img
-                              src={`https://api.mahfouzapp.com/${heroSection.image}`}
+                              src={`https://api.mahfouzapp.com${heroSection.image}`}
                               alt={getLocalizedContent(heroSection.title)}
                               className="w-full h-full object-cover"
                               loading="lazy"

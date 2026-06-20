@@ -79,7 +79,7 @@ const DownloadSection = ({ data }: DownloadSectionProps) => {
 
   // Optimized image URL function
   const getImageUrl = useCallback((imagePath: string) => {
-    return `https://api.mahfouzapp.com/${imagePath}`;
+    return `https://api.mahfouzapp.com${imagePath}`;
   }, []);
 
   // Event handlers
