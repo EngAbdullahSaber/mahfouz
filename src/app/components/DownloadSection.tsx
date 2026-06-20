@@ -54,7 +54,7 @@ const DownloadSection = ({ data }: DownloadSectionProps) => {
       const currentLocale = locale as keyof typeof content;
       return content[currentLocale] || content.en || "";
     },
-    [locale]
+    [locale],
   );
 
   // Memoized styles and gradients for better performance
@@ -74,12 +74,12 @@ const DownloadSection = ({ data }: DownloadSectionProps) => {
         dark: darkColor,
       },
     }),
-    [primaryColor, secondaryColor, darkColor]
+    [primaryColor, secondaryColor, darkColor],
   );
 
   // Optimized image URL function
   const getImageUrl = useCallback((imagePath: string) => {
-    return `https://mahfouzapp.com${imagePath}`;
+    return `https://api.mahfouzapp.com/${imagePath}`;
   }, []);
 
   // Event handlers
@@ -128,7 +128,7 @@ const DownloadSection = ({ data }: DownloadSectionProps) => {
         />
       </div>
     ),
-    [styles.gradients]
+    [styles.gradients],
   );
 
   // Memoized floating features
@@ -149,7 +149,7 @@ const DownloadSection = ({ data }: DownloadSectionProps) => {
         </div>
       </>
     ),
-    [t]
+    [t],
   );
 
   // Memoized phone decorations
@@ -180,7 +180,7 @@ const DownloadSection = ({ data }: DownloadSectionProps) => {
         />
       </>
     ),
-    [styles.gradients]
+    [styles.gradients],
   );
 
   return (

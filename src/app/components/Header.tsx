@@ -55,7 +55,7 @@ const Header = ({ data }: HeaderProps) => {
   // Get current locale as string, with fallback
   const currentLocale = useMemo(
     () => (Array.isArray(locale) ? locale[0] : locale || "en"),
-    [locale]
+    [locale],
   );
 
   // Color definitions - memoized
@@ -66,13 +66,13 @@ const Header = ({ data }: HeaderProps) => {
       medium: "from-blue-100 to-indigo-100",
       strong: `from-[#22488F] to-[#1A3A75]`,
     }),
-    []
+    [],
   );
 
   // Find hero section data - memoized
   const heroSection = useMemo(
     () => data?.find((section) => section.sectionName === "hero"),
-    [data]
+    [data],
   );
 
   // Helper function to get localized content - memoized
@@ -81,7 +81,7 @@ const Header = ({ data }: HeaderProps) => {
       if (!content) return "";
       return content[currentLocale as keyof typeof content] || content.en || "";
     },
-    [currentLocale]
+    [currentLocale],
   );
 
   // Optimized scroll handler with intersection observer fallback
@@ -121,7 +121,7 @@ const Header = ({ data }: HeaderProps) => {
       ([entry]) => {
         setIsVisible(entry.isIntersecting);
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     if (headerRef.current) {
@@ -171,7 +171,7 @@ const Header = ({ data }: HeaderProps) => {
         delay: 300,
       },
     ],
-    [t]
+    [t],
   );
 
   // Memoized stats data
@@ -181,13 +181,13 @@ const Header = ({ data }: HeaderProps) => {
       { value: "24/7", label: t("stats.monitoring"), color: primaryColor },
       { value: "1000+", label: t("stats.families"), color: primaryColor },
     ],
-    [t]
+    [t],
   );
 
   // Memoized title processing
   const titleData = useMemo(() => {
     const titleText = getLocalizedContent(
-      heroSection?.title || { ar: "", en: "Mahfouz", tk: "" }
+      heroSection?.title || { ar: "", en: "Mahfouz", tk: "" },
     );
     const titleParts = titleText.split("—").map((part) => part.trim());
     return { titleText, titleParts };
@@ -209,7 +209,7 @@ const Header = ({ data }: HeaderProps) => {
       statusBadge: Math.max(0.7, 1 - scrollY / 600),
       phoneContainer: `translateY(${scrollY * -0.1}px)`,
     }),
-    [scrollY]
+    [scrollY],
   );
 
   // Scroll to next section
@@ -318,7 +318,7 @@ const Header = ({ data }: HeaderProps) => {
             >
               <h3 className="text-lg sm:text-xl md:text-2xl font-medium text-gray-600 leading-relaxed max-w-2xl transform hover:rotate-1 transition-all duration-300 bg-white/60 backdrop-blur-sm p-4 rounded-2xl shadow-sm hover:shadow-md">
                 {getLocalizedContent(
-                  heroSection?.description || { ar: "", en: "", tk: "" }
+                  heroSection?.description || { ar: "", en: "", tk: "" },
                 )}
               </h3>
             </div>
@@ -461,7 +461,7 @@ const Header = ({ data }: HeaderProps) => {
                         {heroSection?.image ? (
                           <div className="w-full max-w-xs sm:max-w-sm aspect-[9/16] relative">
                             <img
-                              src={`https://mahfouzapp.com${heroSection.image}`}
+                              src={`https://api.mahfouzapp.com/${heroSection.image}`}
                               alt={getLocalizedContent(heroSection.title)}
                               className="w-full h-full object-cover"
                               loading="lazy"
@@ -501,7 +501,7 @@ const Header = ({ data }: HeaderProps) => {
                                   ar: "",
                                   en: "School Transport",
                                   tk: "",
-                                }
+                                },
                               )}
                             </div>
                           </div>
